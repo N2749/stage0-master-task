@@ -1,5 +1,10 @@
 package com.epam.algorithms;
 
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.stream.Collector;
+import java.util.stream.Stream;
+
 /**
  * Here are the tasks for working with the arrays.
  * <p>
@@ -11,7 +16,7 @@ public class ArrayTasks {
      * Return a String[] array that will list all the seasons of the year, starting with winter.
      */
     public String[] seasonsArray() {
-        return null;
+        return new String[] {"Winter", "Spring", "Summer", "Autumn"};
     }
 
     /**
@@ -23,7 +28,11 @@ public class ArrayTasks {
      * length = 1  -> [1] length = 3  -> [1, 2, 3] length = 5  -> [1, 2, 3, 4, 5]
      */
     public int[] generateNumbers(int length) {
-        return null;
+        int arr[] = new int[length];
+        for (int i  = 1; i <= length; i++) {
+            arr[i] = i;
+        }
+        return arr;
     }
 
     /**
@@ -34,7 +43,11 @@ public class ArrayTasks {
      * arr = [1, 3, 5]   -> sum = 9 arr = [5, -3, -4] -> sum = -2
      */
     public int totalSum(int[] arr) {
-        return 0;
+        int sum = 0;
+        for (int i : arr) {
+            sum += i;
+        }
+        return sum;
     }
 
     /**
@@ -46,7 +59,8 @@ public class ArrayTasks {
      * arr = [99, -7, 102], number = -7    ->   2 arr = [5, -3, -4],   number = 10    ->  -1
      */
     public int findIndexOfNumber(int[] arr, int number) {
-        return 0;
+        Arrays.sort(arr);
+        return Arrays.binarySearch(arr, number);
     }
 
     /**
@@ -58,7 +72,11 @@ public class ArrayTasks {
      * "pineapple"]
      */
     public String[] reverseArray(String[] arr) {
-        return null;
+        String[] newArr = new String[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            newArr[i] = arr[arr.length - i - 1];
+        }
+        return newArr;
     }
 
     /**
@@ -70,7 +88,7 @@ public class ArrayTasks {
      * arr = [1,-2, 3]      -> [1, 3] arr = [-1, -2, -3]   -> [] arr = [1, 2]         -> [1, 2]
      */
     public int[] getOnlyPositiveNumbers(int[] arr) {
-        return null;
+        return Arrays.stream(arr).filter((x) -> x > 0).toArray();
     }
 
     /**
@@ -83,6 +101,15 @@ public class ArrayTasks {
      * arr = [[3, 1, 2,], [3,2]] -> [[2, 3], [1, 2, 3]] arr = [[5, 4], [7]]       -> [[7], [4, 5]]
      */
     public int[][] sortRaggedArray(int[][] arr) {
+        Arrays.stream(arr).sorted(new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if (o1.length > o2.length) return 1;
+                if (o1.length < o2.length) return -1;
+                return 0;
+            }
+        }).toArray();
+        for (int[] innerArr : arr) Arrays.sort(innerArr);
         return null;
     }
 
