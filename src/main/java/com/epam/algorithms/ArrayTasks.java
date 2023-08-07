@@ -1,9 +1,5 @@
 package com.epam.algorithms;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.stream.Collector;
-import java.util.stream.Stream;
 
 /**
  * Here are the tasks for working with the arrays.
@@ -16,7 +12,7 @@ public class ArrayTasks {
      * Return a String[] array that will list all the seasons of the year, starting with winter.
      */
     public String[] seasonsArray() {
-        return new String[] {"Winter", "Spring", "Summer", "Autumn"};
+        return new String[]{"Winter", "Spring", "Summer", "Autumn"};
     }
 
     /**
@@ -28,8 +24,8 @@ public class ArrayTasks {
      * length = 1  -> [1] length = 3  -> [1, 2, 3] length = 5  -> [1, 2, 3, 4, 5]
      */
     public int[] generateNumbers(int length) {
-        int arr[] = new int[length];
-        for (int i  = 1; i <= length; i++) {
+        int[] arr = new int[length];
+        for (int i = 1; i <= length; i++) {
             arr[i] = i;
         }
         return arr;
@@ -59,8 +55,10 @@ public class ArrayTasks {
      * arr = [99, -7, 102], number = -7    ->   2 arr = [5, -3, -4],   number = 10    ->  -1
      */
     public int findIndexOfNumber(int[] arr, int number) {
-        Arrays.sort(arr);
-        return Arrays.binarySearch(arr, number);
+        for (int i = 0; i < arr.length; i++) {
+            if (number == arr[i]) return i;
+        }
+        return -1;
     }
 
     /**
@@ -88,7 +86,17 @@ public class ArrayTasks {
      * arr = [1,-2, 3]      -> [1, 3] arr = [-1, -2, -3]   -> [] arr = [1, 2]         -> [1, 2]
      */
     public int[] getOnlyPositiveNumbers(int[] arr) {
-        return Arrays.stream(arr).filter((x) -> x > 0).toArray();
+        int positiveCount = 0;
+        for (int k : arr) {
+            if (k > 0) positiveCount++;
+        }
+        int[] pos = new int[positiveCount];
+        for (int i = 0, j = 0; i < arr.length; i++) {
+            if (arr[i] <= 0) continue;
+            pos[j] = arr[i];
+            j++;
+        }
+        return pos;
     }
 
     /**
@@ -101,16 +109,29 @@ public class ArrayTasks {
      * arr = [[3, 1, 2,], [3,2]] -> [[2, 3], [1, 2, 3]] arr = [[5, 4], [7]]       -> [[7], [4, 5]]
      */
     public int[][] sortRaggedArray(int[][] arr) {
-        Arrays.stream(arr).sorted(new Comparator<int[]>() {
-            @Override
-            public int compare(int[] o1, int[] o2) {
-                if (o1.length > o2.length) return 1;
-                if (o1.length < o2.length) return -1;
-                return 0;
+        for (int[] innerArr : arr) sort(innerArr);
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = i; j < arr.length; j++) {
+                if (arr[i].length > arr[j].length) {
+                    int[] t = arr[j];
+                    arr[j] = arr[i];
+                    arr[i] = t;
+                }
             }
-        }).toArray();
-        for (int[] innerArr : arr) Arrays.sort(innerArr);
-        return null;
+        }
+        return arr;
+    }
+
+    private void sort(int[] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = i; j < arr.length; j++) {
+                if (arr[i] > arr[j]) {
+                    int t = arr[j];
+                    arr[j] = arr[i];
+                    arr[i] = t;
+                }
+            }
+        }
     }
 
 }
